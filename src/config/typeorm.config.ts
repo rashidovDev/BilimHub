@@ -13,4 +13,7 @@ export const getTypeOrmConfig = (
 
   autoLoadEntities: true,
   synchronize: false,
+  extra: {
+    timezone: 'UTC',
+  },
 });

@@ -28,7 +28,7 @@ export class EmailOtp {
   @Column({ type: 'timestamp', nullable: true })
   usedAt: Date | null;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ type: 'timestamp with time zone' })
   createdAt: Date;
 
   @ManyToOne(() => User, { onDelete: 'CASCADE' })

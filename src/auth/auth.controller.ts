@@ -1,21 +1,29 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { EmailService } from './services/email.service.js';
+import { AuthService } from './services/auth.service.js';
 
 @Controller('auth')
 export class AuthController {
   constructor(
-    private readonly emailService: EmailService,
+    private readonly authService: AuthService
   ) {}
 
-  @Get('test-email')
-  async testEmail() {
-    await this.emailService.sendOtp(
-      'test@example.com',
-      '482913',
-    );
+  @Post('request-otp')
+  async requestOtp(
+    @Body('email') email: string,
+  ) {
+    return this.authService.requestOtp(email);
+  }
 
-    return {
-      message: 'Test email sent',
-    };
+
+  @Post('verify-otp')
+  async verifyOtp(
+    @Body('email') email: string,
+    @Body('otp') otp: string,
+  ) {
+    return this.authService.verifyOtp(
+      email,
+      otp,
+    );
   }
 }
