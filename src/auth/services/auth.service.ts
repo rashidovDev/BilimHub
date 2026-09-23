@@ -9,6 +9,7 @@ import { EmailOtp } from '../entities/email-otp.entity.js';
 import { compareOtp, generateOtp, getOtpExpiration, hashOtp } from '../utils/otp.util.js';
 import { OTP_MAX_ATTEMPTS, OTP_RESEND_COOLDOWN_SECONDS } from '../constants/auth.constants.js';
 import { EmailService } from './email.service.js';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
@@ -19,8 +20,19 @@ export class AuthService {
     @InjectRepository(EmailOtp)
     private readonly emailOtpRepository: Repository<EmailOtp>,
 
+    private readonly jwtService: JwtService,
+
     private readonly emailService : EmailService
   ) {}
+
+  async generateAccessToken(userId:string,email:string){
+    const payload = {
+      sub : userId,
+      email : email
+    }
+
+    return this.jwtService.sign(payload)
+  }
 
   // REQUEST OTP
   async requestOtp(email: string) {

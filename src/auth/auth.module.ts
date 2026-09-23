@@ -5,9 +5,16 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { EmailOtp } from './entities/email-otp.entity.js';
 import { User } from '../users/entities/user.entity.js';
 import { AuthService } from './services/auth.service.js';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports : [
+  JwtModule.register({
+  secret : process.env.JWT_ACCESS_SECRET,
+  signOptions: {
+    expiresIn : '15m'
+  }
+  }),
   TypeOrmModule.forFeature([
     User,
     EmailOtp

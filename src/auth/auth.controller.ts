@@ -15,13 +15,12 @@ export class AuthController {
     return this.authService.requestOtp(email);
   }
 
-
   @Post('verify-otp')
   async verifyOtp(
     @Body('email') email: string,
     @Body('otp') otp: string,
   ) {
-    return this.authService.verifyOtp(
+    return this.authService.verifyOtp( 
       email,
       otp,
     );
