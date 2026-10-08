@@ -6,7 +6,7 @@ export function generateOtp(): string {
 }
 
 export async function hashOtp(otp: string): Promise<string> {
-  return bcrypt.hash(otp, 10);
+  return bcrypt.hash(otp, 6);
 }
 
 export async function compareOtp(

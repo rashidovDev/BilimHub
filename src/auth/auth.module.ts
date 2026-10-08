@@ -6,22 +6,24 @@ import { EmailOtp } from './entities/email-otp.entity.js';
 import { User } from '../users/entities/user.entity.js';
 import { AuthService } from './services/auth.service.js';
 import { JwtModule } from '@nestjs/jwt';
+import { RefreshSession } from './entities/refresh-session.entity.js';
+import { TokenService } from './services/token.service.js';
+import { JwtStrategy } from './strategies/jwt.strategy.js';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports : [
-  JwtModule.register({
-  secret : process.env.JWT_ACCESS_SECRET,
-  signOptions: {
-    expiresIn : '15m'
-  }
-  }),
+  JwtModule.register({}),
+   
+ PassportModule.register({ defaultStrategy: 'jwt' }),
   TypeOrmModule.forFeature([
     User,
-    EmailOtp
+    EmailOtp,
+    RefreshSession
   ])
   ],
-  providers: [EmailService, AuthService],
-  exports: [EmailService, AuthService],
+  providers: [EmailService, AuthService, TokenService, JwtStrategy],
+  exports: [EmailService, AuthService, TokenService, JwtStrategy,PassportModule ],
   controllers : [AuthController]
 })
 export class AuthModule {}

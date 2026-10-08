@@ -7,6 +7,10 @@ import { getTypeOrmConfig } from './config/typeorm.config.js';
 import { validationSchema } from './config/env.validation.js';
 import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from './auth/guards/jwt-auth.guard.js';
+import { RolesGuard } from './common/guards/roles.guard.js';
+import { TestsModule } from './tests/tests.module.js';
 
 @Module({
   imports: [
@@ -19,9 +23,19 @@ import { AppService } from './app.service.js';
       useFactory: getTypeOrmConfig,
     }),
     UsersModule, 
-    AuthModule
+    AuthModule, TestsModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+     {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+    {
+    provide: APP_GUARD,
+    useClass: RolesGuard,
+  },
+  ],
 })
 export class AppModule {}
