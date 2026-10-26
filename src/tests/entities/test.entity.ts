@@ -1,11 +1,11 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { TestStatus } from "../enums/test-status.enum.js";
 import { TestVisibility } from "../enums/test-visibility.enum.js";
 
 @Entity('tests')
 export class Test {
     @PrimaryGeneratedColumn('uuid')
-    id: number;
+    id: string;
 
     @Column()
     title: string;
@@ -29,6 +29,12 @@ export class Test {
         default : TestVisibility.PRIVATE
     })
     visiblity: TestVisibility;
+
+    @DeleteDateColumn({
+  type: 'timestamptz',
+  nullable: true,
+})
+deletedAt: Date | null;
 
     @CreateDateColumn()
     createdAt: Date;

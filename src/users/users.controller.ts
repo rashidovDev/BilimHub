@@ -6,13 +6,14 @@ import { UsersService } from './users.service.js';
 import { Role } from '../common/enums/role.enum.js';
 import { RolesGuard } from '../common/guards/roles.guard.js';
 import { Roles } from '../common/decorators/roles.decorator.js';
+import { Public } from '../common/decorators/public.decorator.js';
 
-@Roles(Role.TEACHER)
 @Controller('users')
 export class UsersController {
   constructor(
      private readonly usersService : UsersService
     ){}
+
 
 @Get('me')
 getMe(@CurrentUser() user: AuthUser,) {

@@ -16,9 +16,7 @@ import { RefreshSession } from '../entities/refresh-session.entity.js';
 import { createHash, randomUUID } from 'crypto';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
-import {
-  EntityManager,
-} from 'typeorm';
+
 
 @Injectable()
 export class AuthService {
