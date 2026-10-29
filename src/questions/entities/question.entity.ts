@@ -14,6 +14,7 @@ import { Test } from '../../tests/entities/test.entity.js';
 import type { Relation } from 'typeorm';
 import { QuestionType } from '../enums/question-type.enum.js';
 import { QuestionOption } from './question-option.entity.js';
+import { QuestionAnswer } from './question-answer.entity.js';
 
 @Entity('questions')
 export class Question {
@@ -45,6 +46,12 @@ type: QuestionType;
   (option) => option.question,
 )
 options: QuestionOption[];
+
+@OneToMany(
+  () => QuestionAnswer,
+  (answer) => answer.question,
+)
+answers: QuestionAnswer[];
 
   @CreateDateColumn()
   createdAt: Date;
